@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      # POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ./shared:/shared
+      # - pg-data:/var/lib/postgresql/data
+      - ./db-data:/db-data
+
+  db-gui:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: asdf@asdf.asdf
+      PGADMIN_DEFAULT_PASSWORD: asdf 
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - '5001:80'
+    volumes:
+      - ./shared:/shared
+      # - pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
