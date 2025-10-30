@@ -5,7 +5,6 @@ services:
     environment:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
-      # POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
@@ -16,7 +15,6 @@ services:
     volumes:
       - ./shared:/shared
       # - pg-data:/var/lib/postgresql/data
-      - ./db-data:/db-data
 
   db-gui:
     image: dpage/pgadmin4
@@ -28,5 +26,8 @@ services:
       - '5001:80'
     volumes:
       - ./shared:/shared
-      # - pgadmin-data:/var/lib/pgadmin
+      - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
+
+volumes:
+  pgadmin-data:
