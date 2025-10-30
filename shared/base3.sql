@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict s5CfaUWWLSolTOWBjYee4yqg24gHISWjff8VchIIbONQ1hcpdctoipFCXrYgiha
+\restrict 3F81W8XuGZDgNQEqYBJzUHd5n7149uLLdiNgmedSMFr0INcBgaAhWwfw4zwj8uC
 
 -- Dumped from database version 18.0 (Debian 18.0-1.pgdg13+3)
 -- Dumped by pg_dump version 18.0 (Debian 18.0-1.pgdg13+3)
@@ -35,18 +35,6 @@ CREATE TYPE public."ALBUM_TYPE" AS ENUM (
 
 
 ALTER TYPE public."ALBUM_TYPE" OWNER TO postgres;
-
---
--- Name: AUTHOR_TYPE; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public."AUTHOR_TYPE" AS ENUM (
-    'person',
-    'band'
-);
-
-
-ALTER TYPE public."AUTHOR_TYPE" OWNER TO postgres;
 
 --
 -- Name: BAND_GENDER; Type: TYPE; Schema: public; Owner: postgres
@@ -196,19 +184,19 @@ $$;
 ALTER FUNCTION public.add_track(p_title text, p_duration interval, p_lyrics text, p_released date, p_mp3 bytea) OWNER TO postgres;
 
 --
--- Name: add_track_author(integer, public."AUTHOR_TYPE", integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: add_track_author(integer, integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.add_track_author(p_track_id integer, p_type public."AUTHOR_TYPE" DEFAULT NULL::public."AUTHOR_TYPE", p_person_id integer DEFAULT NULL::integer, p_band_id integer DEFAULT NULL::integer) RETURNS integer
+CREATE FUNCTION public.add_track_author(p_track_id integer, p_person_id integer DEFAULT NULL::integer, p_band_id integer DEFAULT NULL::integer) RETURNS integer
     LANGUAGE sql
     AS $$
-    INSERT INTO public.track_authors (type, person_id, band_id, track_id)
-    VALUES (p_type, p_person_id, p_band_id, p_track_id)
+    INSERT INTO public.track_authors (person_id, band_id, track_id)
+    VALUES (p_person_id, p_band_id, p_track_id)
     RETURNING id;
 $$;
 
 
-ALTER FUNCTION public.add_track_author(p_track_id integer, p_type public."AUTHOR_TYPE", p_person_id integer, p_band_id integer) OWNER TO postgres;
+ALTER FUNCTION public.add_track_author(p_track_id integer, p_person_id integer, p_band_id integer) OWNER TO postgres;
 
 --
 -- Name: album_duration(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -560,7 +548,6 @@ ALTER SEQUENCE public.members_id_seq OWNED BY public.people.id;
 
 CREATE TABLE public.track_authors (
     id integer NOT NULL,
-    type public."AUTHOR_TYPE",
     person_id integer,
     band_id integer,
     track_id integer NOT NULL
@@ -777,9 +764,9 @@ COPY public.people (id, alias, name, korean_name, born, deceased, retired) FROM 
 -- Data for Name: track_authors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.track_authors (id, type, person_id, band_id, track_id) FROM stdin;
-2	band	\N	3	4
-3	band	2	\N	4
+COPY public.track_authors (id, person_id, band_id, track_id) FROM stdin;
+2	\N	3	4
+3	2	\N	4
 \.
 
 
@@ -1051,5 +1038,5 @@ GRANT SELECT ON TABLE public.tracks_with_album_and_artits TO kpop_guest;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict s5CfaUWWLSolTOWBjYee4yqg24gHISWjff8VchIIbONQ1hcpdctoipFCXrYgiha
+\unrestrict 3F81W8XuGZDgNQEqYBJzUHd5n7149uLLdiNgmedSMFr0INcBgaAhWwfw4zwj8uC
 
