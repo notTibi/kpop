@@ -5,14 +5,15 @@
 ```sh
 docker compose up -d
 docker exec -it kpop-postgres-1 /bin/bash
-psql -U postgres -f /shared/base3.sql
+psql -U postgres -f /shared/users.sql
+psql -U postgres -f /shared/base.sql
 ```
 
 ## dump and finish
 
 ```sh
 docker exec -it kpop-postgres-1 /bin/bash
-pg_dump -U postgres -f /shared/base3.sql
+pg_dump -U postgres -f /shared/base.sql
 exit
 docker compose down -v
 ```
@@ -46,19 +47,3 @@ postgres docs: https://www.postgresql.org/docs/18/index.html
     - [x] editor, has access to functions which we defined.
 - [x] insert some data
 - [ ] insert more data
-
-## add users
-
-```sql
-CREATE USER guest;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO guest;
-
-CREATE USER editor;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO editor;
-GRANT INSERT ON ALL TABLES IN SCHEMA public TO editor;
-GRANT UPDATE ON ALL TABLES IN SCHEMA public TO editor;
-GRANT DELETE ON ALL TABLES IN SCHEMA public TO editor;
-GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO editor;
-
--- admin, db owner
-```
