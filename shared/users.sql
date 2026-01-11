@@ -7,3 +7,8 @@ GRANT INSERT ON ALL TABLES IN SCHEMA public TO editor;
 GRANT UPDATE ON ALL TABLES IN SCHEMA public TO editor;
 GRANT DELETE ON ALL TABLES IN SCHEMA public TO editor;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO editor;
+
+CREATE USER contributor;
+GRANT USAGE ON SCHEMA public TO contributor;
+GRANT EXECUTE ON ALL PROCEDURES IN SCHEMA public TO contributor;
+-- Note: 'contributor' relies on SECURITY DEFINER procedures to insert data.

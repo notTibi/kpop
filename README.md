@@ -23,13 +23,12 @@ docker compose down -v
 pgAdmin starts at: http://localhost:5001
 postgres docs: https://www.postgresql.org/docs/18/index.html
 
+## report
+
+[Link to the report which contains all information about the database.](./raport-bd-pp-tb.pdf)
+
 ## todo
 
-<!-- - [ ] add procedures -->
-<!--     - [ ] new albums with tracks and authors and label -->
-<!--     - [ ] new track with album and authors -->
-<!--     - [ ] new band with people -->
-<!--     - [ ] new person with band -->
 - [x] write some sql template for addings everything and for more complex structures use transactions
 - [x] some more views?
     - [x] artist view with songs from band when the artist was a part of it
@@ -46,4 +45,4 @@ postgres docs: https://www.postgresql.org/docs/18/index.html
     - [x] guest, only view
     - [x] editor, has access to functions which we defined.
 - [x] insert some data
-- [ ] insert more data
+- [x] add procedures and roles which can only access database using these procedures
